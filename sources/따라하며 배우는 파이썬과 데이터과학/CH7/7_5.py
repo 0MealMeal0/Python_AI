@@ -1,11 +1,21 @@
-print("문자를 입력하세요.: ", end = '')
-word = str(input())
-result = ' '
-for i in range(len(word)) :
-    result += word[i]
-    print(result)
+alpha = ('A', 'B', 'C')
+nums = ('1', '2')
 
-for j in range(len(word)):
-    print(result[0:(len(word) - j)])
+nums2 = (1, 2)
 
-#for 하나로 돌릴 수 있을까?
+seats = list()
+seats2 = list()
+
+for i in range(len(alpha)):
+    for j in range(len(nums)):
+        seats.append(alpha[i] + nums[j])
+
+for i in range(len(alpha)):
+    for j in range(len(nums2)):
+        seats2.append(alpha[i] + str(nums2[j]))
+
+print(seats)
+print(type(seats))
+
+print(seats2)
+print(type(seats2))

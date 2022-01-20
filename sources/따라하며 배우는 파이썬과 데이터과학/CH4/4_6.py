@@ -6,13 +6,13 @@ print("Pizza(P)")
 print("Choose menu...: ")
 food = str(input())
 
-if(food == 'b' and 'B'):
+if(food == 'b' or food =='B'):
     food = '햄버거'
 
-elif(food == 'c' and 'C'):
+elif(food == 'c' or food == 'C'):
     food = "Chicken"
 
-elif(food == 'p' and 'P'):
+elif(food == 'p' or food == 'P'):
     food = "Pizza"
 
 else :

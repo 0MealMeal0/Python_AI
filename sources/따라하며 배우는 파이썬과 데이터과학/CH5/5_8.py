@@ -17,7 +17,8 @@ while(True):
                       # reverse = 4 + 3 + 1
             reverse = i + reverse
 
-        print(reverse)
+        print("입력 수: {}".format(num))
+        print("거꾸로 수 : {}".format(reverse))
 
         if(num == reverse):
             print("{}는 거꾸로 정수입니다.".format(num))
@@ -25,5 +26,5 @@ while(True):
         else:
             print("{}는 거꾸로 정수가 아닙니다.".format(num))
     
-    reverse = ' ' # reverse 변수를 계속 사용하기 위해 초기화
+    reverse = '' # reverse 변수를 계속 사용하기 위해 초기화
 

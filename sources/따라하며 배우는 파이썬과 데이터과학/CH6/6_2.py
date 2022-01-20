@@ -1,4 +1,4 @@
-def max(m ,n) :
+def max2(m ,n) :
     if(m > n) :
         return m
     else:

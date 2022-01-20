@@ -1,31 +1,29 @@
-from sympy import E
+print("맛나 식당에 오신 것을 환영합니다. 메뉴는 다음과 같습니다.")
+print("1) 햄버거")
+print("2) 치킨")
+print("3) 피자")
 
-
-print("---메뉴---")
-print("햄버거(B)")
-print("Chicken(C)")
-print("Pizza(P)")
+print("1에서 3까지의 메뉴를 선택하세요.: ", end='')    
 
 while(1): 
-    print("Choose menu...: ", end='')    
+    
     food = str(input())
 
-    if(food == 'b' and 'B'):
-        food = '햄버거'
-        print("You choose", food)
+    if(food == '1' or food == '2' or food == '3'):
 
-    elif(food == 'c' and 'C'):
-        food = "Chicken"
-        print("You choose", food)
+        if(food == '1'):
+            food = '햄버거'
+            print(food, "를 선택하였습니다.")
 
-    elif(food == 'p' and 'P'):
-        food = "Pizza"
-        print("You choose", food)
-    
-    elif(food == 'q'):
-        exit()
+        elif(food == '2'):
+            food = "치킨"
+            print(food, "을 선택하였습니다.")
+
+        elif(food == '3'):
+            food = "피자"
+            print(food, "를 선택하였습니다.")
+        
+        break
 
     else:
-        print("다시 입력하세요.")    
-    
-    
+        print("메뉴를 다시 입력하세요.", end = '')    

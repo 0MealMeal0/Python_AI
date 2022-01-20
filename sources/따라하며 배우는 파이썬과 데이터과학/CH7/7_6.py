@@ -1,5 +1,11 @@
-fruit_list = ['banana', 'orange', 'kiwi', 'apple', 'melon']
+print("문자를 입력하세요.: ", end = '')
+word = str(input())
+result = ' '
+for i in range(len(word)) :
+    result += word[i]
+    print(result)
 
-#7.7.1
+for j in range(len(word)):
+    print(result[0:(len(word) - j)])
 
-print(max(fruit_list))
+#for 하나로 돌릴 수 있을까?

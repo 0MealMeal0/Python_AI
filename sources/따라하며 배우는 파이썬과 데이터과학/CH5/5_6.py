@@ -12,5 +12,5 @@ while(1):
     print("현재 탱크양은 {}입니다.".format(fuel))
 
     if(fuel < (500 * 0.1)):
-        print("Warning : The gas is under 10%")
+        print("경고 : 연로가 10%미만이니 충전하세요!")
         break

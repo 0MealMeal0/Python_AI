@@ -22,18 +22,8 @@ def max_and_min(n1, n2, n3) :
             
             else :
                 return n3, n1
-            
-def min(n1, n2, n3) :
-    if(n1 < n2) and (n1 < n3) :
-        return n1
-    
-    elif(n2 < n1) and (n2 < n3):
-        return n2
-    
-    else : 
-        return n3
 
-print("세 수 입력: ", end='')
+print("3 수를 입력하시오.: ", end='')
 a, b, c = map(int, input().split())
 
 max_num, min_num = max_and_min(a, b, c)
