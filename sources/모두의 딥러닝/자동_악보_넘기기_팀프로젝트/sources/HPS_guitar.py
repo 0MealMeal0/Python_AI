@@ -37,7 +37,7 @@ def find_closest_note(pitch):
     closest_pitch (float): pitch of the closest note in hertz
   """
   i = int(np.round(np.log2(pitch/CONCERT_PITCH)*12))
-  closest_note = ALL_NOTES[i%12] + str(4 + (i + 9) // 12)
+  closest_note = ALL_NOTES[i%12] + str((4 - 1) + (i + 9) // 12)
   closest_pitch = CONCERT_PITCH*2**(i/12)
   return closest_note, closest_pitch
 
@@ -113,6 +113,7 @@ def callback(indata, frames, time, status):
     os.system('cls' if os.name=='nt' else 'clear')
     if callback.noteBuffer.count(callback.noteBuffer[0]) == len(callback.noteBuffer):
       print(f"Closest note: {closest_note} {max_freq}/{closest_pitch}")
+
     else:
       print(f"Closest note: ...")
 
@@ -122,7 +123,8 @@ def callback(indata, frames, time, status):
 try:
   print("Starting HPS guitar tuner...")
   with sd.InputStream(channels=1, callback=callback, blocksize=WINDOW_STEP, samplerate=SAMPLE_FREQ):
+
     while True:
-      time.sleep(0.5)
+      time.sleep(1)
 except Exception as exc:
   print(str(exc))
