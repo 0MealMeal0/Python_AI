@@ -40,7 +40,7 @@ def find_closest_note(pitch):
   closest_note = ALL_NOTES[i%12] + str((4 - 1) + (i + 9) // 12)
   closest_pitch = CONCERT_PITCH*2**(i/12)
   return closest_note, closest_pitch
-
+  
 HANN_WINDOW = np.hanning(WINDOW_SIZE)
 def callback(indata, frames, time, status):
   """
