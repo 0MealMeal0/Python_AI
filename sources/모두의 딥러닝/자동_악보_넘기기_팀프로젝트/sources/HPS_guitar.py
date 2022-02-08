@@ -11,12 +11,13 @@ import numpy as np
 import scipy.fftpack
 import sounddevice as sd
 import time
+import csv
 
 # General settings that can be changed by the user
 SAMPLE_FREQ = 48000 # sample frequency in Hz
 WINDOW_SIZE = 48000 # window size of the DFT in samples
 WINDOW_STEP = 12000 # step size of window
-NUM_HPS = 5 # max number of harmonic product spectrums
+NUM_HPS = 9 # max number of harmonic product spectrums
 POWER_THRESH = 1e-6 # tuning is activated if the signal power exceeds this threshold
 CONCERT_PITCH = 440 # defining a1
 WHITE_NOISE_THRESH = 0.2 # everything under WHITE_NOISE_THRESH*avg_energy_per_freq is cut off
@@ -40,13 +41,18 @@ def find_closest_note(pitch):
   closest_note = ALL_NOTES[i%12] + str((4 - 1) + (i + 9) // 12)
   closest_pitch = CONCERT_PITCH*2**(i/12)
   return closest_note, closest_pitch
-  
+
 HANN_WINDOW = np.hanning(WINDOW_SIZE)
 def callback(indata, frames, time, status):
   """
   Callback function of the InputStream method.
   That's where the magic happens ;)
   """
+  # csv 파일 쓸꺼에유^^
+  # file open은 append 모드입니다.
+  pitches = open('pitches.csv', 'a', newline='')
+  wr = csv.writer(pitches)
+
   # define static variables
   if not hasattr(callback, "window_samples"):
     callback.window_samples = [0 for _ in range(WINDOW_SIZE)]
@@ -111,11 +117,15 @@ def callback(indata, frames, time, status):
     callback.noteBuffer.pop()
 
     os.system('cls' if os.name=='nt' else 'clear')
-    if callback.noteBuffer.count(callback.noteBuffer[0]) == len(callback.noteBuffer):
-      print(f"Closest note: {closest_note} {max_freq}/{closest_pitch}")
 
+
+    if callback.noteBuffer.count(callback.noteBuffer[0]) == len(callback.noteBuffer):
+      #print(f"Closest note found: ... {max_freq}")
+      print(f"Closest note: {closest_note} {max_freq}/{closest_pitch}")
+      wr.writerow(([closest_note, max_freq]))
     else:
-      print(f"Closest note: ...")
+      print(f"Closest note not found: ... {max_freq}")
+
 
   else:
     print('no input')
