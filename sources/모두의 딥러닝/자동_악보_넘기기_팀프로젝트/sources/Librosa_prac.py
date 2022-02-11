@@ -7,7 +7,7 @@ from matplotlib import cm
 
 # 음원에 대한 주파수를 출력하는 소스
 
-audio_path = 'test_output0.wav'
+audio_path = 'piano_sound/37.wav'
 y, sr = librosa.load(audio_path, sr=44100)
 
 # stft_result = librosa.stft(y, n_fft=4096, win_length = 4096, hop_length=512)
