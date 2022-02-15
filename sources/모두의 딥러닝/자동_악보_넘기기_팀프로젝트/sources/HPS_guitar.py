@@ -44,6 +44,7 @@ def find_closest_note(pitch):
     i = int(np.round(np.log2(pitch / CONCERT_PITCH) * 12))
     closest_note = ALL_NOTES[i % 12] + str((4 - 1) + (i + 9) // 12)
     closest_pitch = CONCERT_PITCH * 2 ** (i / 12)
+
     return closest_note, closest_pitch
 
 
@@ -60,9 +61,35 @@ def second_find_note(freq):
 
 
 ##############################
+global_pitch = "Nothing Changed"
+def return_global_pitch():
+    global global_pitch
+    return print(global_pitch)
 
-def print_gloabl_pitch(pitch):
-    return str(pitch)
+def pitch_tracker():
+    codes = ('C2', 'D3', 'E4') #악보의 코드들
+    counter = 0 #코드를 맞춘 수
+    i = 0 # 악보의 코드들의 위치
+
+    global global_pitch
+    while(True):
+        time.sleep(1)
+        pitches = len(codes)
+        print("------------------------------------")
+        print(f"global pitch: {global_pitch}")
+
+        if(counter == len(codes)):
+            print("All Correct!")
+            return
+
+        elif (global_pitch == codes[i]):
+            print(f"Correct pitch!: {codes[i]}")
+            counter =+ 1
+            i += 1
+
+        else:
+            print(f"Pitch: {codes[i]}")
+            print("Not Correct pitch!")
 
 
 HANN_WINDOW = np.hanning(WINDOW_SIZE)
@@ -73,6 +100,7 @@ def callback(indata, frames, time, status):
   Callback function of the InputStream method.
   That's where the magic happens ;)
   """
+    global global_pitch #global_pitch를 전역변수로 쓰기 위해 선언하였읍니다.
     # csv 파일 쓸꺼에유^^
     # file open은 append 모드입니다.
     pitches = open('pitches.csv', 'a', newline='')
@@ -150,8 +178,11 @@ def callback(indata, frames, time, status):
             # print(f"Closest note: {closest_note} {max_freq}/{closest_pitch}")
             # print(f"Second Closet note: {second_find_note(max_freq)}")
             wr.writerow(([closest_note, max_freq]))
-            print(print_gloabl_pitch(closest_note) + ' ' + str(datetime.datetime.now()))
+            #print(print_gloabl_pitch(closest_note) + ' ' + str(datetime.datetime.now()))
             # 요것은 지역변수인 closet_note를 return하는 print_global_pitch 메소드의 return 작동 테스트 한 것입니다.
+            #set_global_pitch(closest_note)
+            global_pitch = closest_note
+            #return print(closest_note)
         # else:
         # print(f"Closest note not found: ... {max_freq}")
 
@@ -159,13 +190,18 @@ def callback(indata, frames, time, status):
     else:
         print('no input')
 
+def HPS_start():
 
-try:
-    print("Starting HPS guitar tuner...")
 
-    with sd.InputStream(channels=1, callback=callback, blocksize=WINDOW_STEP, samplerate=SAMPLE_FREQ):
+    try:
+        print("Starting HPS guitar tuner...")
 
-        while True:
-            time.sleep(1)
-except Exception as exc:
-    print(str(exc))
+        with sd.InputStream(channels=1, callback=callback, blocksize=WINDOW_STEP, samplerate=SAMPLE_FREQ):
+            global global_pitch
+            while True:
+                time.sleep(1)
+                pitch_tracker()
+
+    except Exception as exc:
+        print(str(exc))
+
