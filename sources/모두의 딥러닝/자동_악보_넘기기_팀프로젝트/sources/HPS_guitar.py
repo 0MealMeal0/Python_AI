@@ -31,7 +31,7 @@ OCTAVE_BANDS = [50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600]
 
 ALL_NOTES = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"]
 notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-
+###########################################################
 def find_closest_note(pitch):
     """
   This function finds the closest note for a given pitch
@@ -52,49 +52,48 @@ def find_closest_note(pitch):
 A4 = 440
 C0 = A4 * pow(2, -4.75)
 
-
 def second_find_note(freq):
     h = round(12 * log2(freq / C0))
     octave = h // 12
     n = h % 12
     return notes[n] + str(octave)
-
-
 ##############################
 global_pitch = "Nothing Changed"
 def return_global_pitch():
     global global_pitch
     return print(global_pitch)
-
+###############################
 def pitch_tracker():
-    codes = ('C2', 'D3', 'E4') #악보의 코드들
+    codes = ['C1', 'C#1'] #악보의 코드들
     counter = 0 #코드를 맞춘 수
     i = 0 # 악보의 코드들의 위치
+    pitches = len(codes) # 음의 갯수를 저장하는 변수
 
     global global_pitch
     while(True):
         time.sleep(1)
-        pitches = len(codes)
+
         print("------------------------------------")
         print(f"global pitch: {global_pitch}")
+        print(f"Count: {counter}   \t i: {i} len: {pitches}")
 
-        if(counter == len(codes)):
+        if(i == len(codes)):
             print("All Correct!")
-            return
+            exit()
 
         elif (global_pitch == codes[i]):
             print(f"Correct pitch!: {codes[i]}")
-            counter =+ 1
+            counter += 1
+            #print(f"Count: {counter}")
             i += 1
 
         else:
-            print(f"Pitch: {codes[i]}")
+            print(f"Next Pitch: {codes[i]}")
             print("Not Correct pitch!")
 
 
 HANN_WINDOW = np.hanning(WINDOW_SIZE)
-
-
+#########################################
 def callback(indata, frames, time, status):
     """
   Callback function of the InputStream method.
@@ -177,12 +176,9 @@ def callback(indata, frames, time, status):
             # print(f"Closest note found: ... {max_freq}")
             # print(f"Closest note: {closest_note} {max_freq}/{closest_pitch}")
             # print(f"Second Closet note: {second_find_note(max_freq)}")
-            wr.writerow(([closest_note, max_freq]))
-            #print(print_gloabl_pitch(closest_note) + ' ' + str(datetime.datetime.now()))
-            # 요것은 지역변수인 closet_note를 return하는 print_global_pitch 메소드의 return 작동 테스트 한 것입니다.
-            #set_global_pitch(closest_note)
+            wr.writerow(([closest_note, max_freq])) # csv파일에 쓰기위함
             global_pitch = closest_note
-            #return print(closest_note)
+
         # else:
         # print(f"Closest note not found: ... {max_freq}")
 
@@ -191,7 +187,6 @@ def callback(indata, frames, time, status):
         print('no input')
 
 def HPS_start():
-
 
     try:
         print("Starting HPS guitar tuner...")
@@ -204,4 +199,3 @@ def HPS_start():
 
     except Exception as exc:
         print(str(exc))
-
