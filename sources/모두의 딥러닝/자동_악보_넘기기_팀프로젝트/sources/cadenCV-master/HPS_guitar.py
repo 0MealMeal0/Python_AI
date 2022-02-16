@@ -16,6 +16,8 @@ import csv
 from math import log2, pow
 
 
+
+
 # General settings that can be changed by the user
 SAMPLE_FREQ = 48000  # sample frequency in Hz
 WINDOW_SIZE = 48000  # window size of the DFT in samples
@@ -64,8 +66,8 @@ def return_global_pitch():
     global global_pitch
     return print(global_pitch)
 ###############################
-def pitch_tracker():
-    codes = ['C1', 'C#1'] #악보의 코드들
+def pitch_tracker(codes):
+    #codes = ['C1', 'C#1'] #악보의 코드들
     counter = 0 #코드를 맞춘 수
     i = 0 # 악보의 코드들의 위치
     pitches = len(codes) # 음의 갯수를 저장하는 변수
@@ -187,7 +189,7 @@ def callback(indata, frames, time, status):
     else:
         print('no input')
 
-def HPS_start():
+def HPS_start(codes):
 
     try:
         print("Starting HPS guitar tuner...")
@@ -196,7 +198,7 @@ def HPS_start():
             global global_pitch
             while True:
                 time.sleep(1)
-                pitch_tracker()
+                pitch_tracker(codes)
 
     except Exception as exc:
         print(str(exc))
