@@ -67,36 +67,44 @@ def return_global_pitch():
     return print(global_pitch)
 ###############################
 def pitch_tracker(codes):
-    #codes = ['C1', 'C#1'] #악보의 코드들
-    counter = 0 #코드를 맞춘 수
-    i = 0 # 악보의 코드들의 위치
-    pitches = len(codes) # 음의 갯수를 저장하는 변수
+    #codes 매개변수는 리스트 형태로 받는다.
+    counter = 0 #코드를 맞춘 수를 저장하는 변수
+    i = 0 # 악보의 코드들의 위치의 인덱스 변수
+    pitches = len(codes)
+    # 매개변수로 들어온 리스트에서 음의 갯수를 저장하는 변수
 
     global global_pitch
+    # 현재 마이크를 통해 들어온 소리가 어떤 음인지 저장하고 있는 전역변수를 사용하기 위해 선언 
     while(True):
         time.sleep(1)
+        # 1초 간격동안 반복문이 실행
 
         print("------------------------------------")
-        print(f"global pitch: {global_pitch}")
-        print(f"Count: {counter}   \t i: {i} len: {pitches}")
-
+        print(f"들리는 음계: {global_pitch}")
+        # 현재 마이크를 통해 들리는 소리가 어떤 음인지 출력
+        print(f"맞춘 수: {counter}   \t 현재 인덱스 위치: {i} 전체 음계 갯수: {pitches}")
+        # 현재 음을 맞춘 수와 현재 인덱스, 몇 개의 음을 맞춰야 하는지 출력
         if(i == len(codes)):
+            # 전체 음의 수와 인덱스의 크기가 같으면 프로그램이 종료된다.
             print("All Correct!")
             exit()
 
         elif (global_pitch == codes[i]):
-            print(f"Correct pitch!: {codes[i]}")
+            # 현재 마이크를 통해 들리는 음과 맞춰야 하는 음이 같으면
+            print(f"같은 음계 입니다!: {codes[i]}")
+            # 맞춘 음을 출력하고
             counter += 1
-            #print(f"Count: {counter}")
             i += 1
+            # counter(맞춘 수)변수와 인덱스를 1 증가한다.
 
         else:
-            print(f"Next Pitch: {codes[i]}")
-            print("Not Correct pitch!")
-
+            # 현재 마이크를 통해 들리는 음과 맞춰야 하는 음이 틀리면
+            print(f"다음 음계: {codes[i]}")
+            print("음계가 일치하지 않습니다!")
+#########################################
 
 HANN_WINDOW = np.hanning(WINDOW_SIZE)
-#########################################
+
 def callback(indata, frames, time, status):
     """
   Callback function of the InputStream method.
